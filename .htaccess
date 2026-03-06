@@ -4,9 +4,10 @@
 RewriteEngine On
 
 # Configurar RewriteBase según la ubicación del proyecto
-# Si está en la raíz del servidor web, usar: RewriteBase /
-# Si está en una subcarpeta (ej: /oderman-group/), usar:
-RewriteBase /oderman-group/
+# PRODUCCIÓN: Si está en /web/, usar: RewriteBase /web/
+# DESARROLLO LOCAL: Si está en /oderman-group/, usar: RewriteBase /oderman-group/
+# RAÍZ: Si está en la raíz, usar: RewriteBase /
+RewriteBase /web/
 
 # Prevenir listado de directorios
 Options -Indexes
@@ -54,16 +55,9 @@ Options -Indexes
 # RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
 
 # Página de error 404 personalizada
-# Si el proyecto está en la raíz del servidor web, usar: ErrorDocument 404 /404.php
-# Si está en una subcarpeta (ej: /oderman-group/), usar: ErrorDocument 404 /oderman-group/404.php
-# Para XAMPP en localhost, si está en htdocs/oderman-group, usar:
-ErrorDocument 404 /oderman-group/404.php
-
-# Detectar si estamos en una subcarpeta y configurar RewriteBase automáticamente
-# Si el proyecto está en la raíz, RewriteBase será /
-# Si está en una subcarpeta, se detectará automáticamente
-RewriteCond %{REQUEST_URI}::%{REQUEST_FILENAME} ^(.*?)([^/]*)::(.*)$
-RewriteRule ^(.*)$ - [E=BASE:%1]
+# PRODUCCIÓN: ErrorDocument 404 /web/404.php
+# DESARROLLO: ErrorDocument 404 /oderman-group/404.php
+ErrorDocument 404 /web/404.php
 
 # URLs amigables específicas (procesar ANTES de verificar archivos)
 RewriteRule ^acerca-de/?$ about.php [L,QSA]
