@@ -49,23 +49,21 @@ Options -Indexes
 # RewriteCond %{HTTPS} off
 # RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
 
-# Página de error 404 personalizada (ruta relativa)
-ErrorDocument 404 404.php
-
 # ============================================
 # REGLAS DE REWRITE - URLs AMIGABLES
+# IMPORTANTE: Estas reglas deben estar en este orden específico
 # ============================================
 
-# Permitir acceso directo a archivos físicos existentes (CSS, JS, imágenes, etc.)
-# Esto debe ir PRIMERO para evitar que se procesen archivos estáticos
+# PRIMERO: Permitir acceso directo a TODOS los archivos físicos existentes
+# Esto incluye PHP, CSS, JS, imágenes, etc. - DEBE IR PRIMERO
 RewriteCond %{REQUEST_FILENAME} -f
 RewriteRule ^ - [L]
 
-# Permitir acceso directo a directorios existentes
+# SEGUNDO: Permitir acceso directo a TODOS los directorios existentes
 RewriteCond %{REQUEST_FILENAME} -d
 RewriteRule ^ - [L]
 
-# URLs amigables específicas (procesar ANTES de verificar archivos)
+# TERCERO: URLs amigables específicas (solo procesar si no es archivo/directorio)
 RewriteRule ^acerca-de/?$ about.php [L,QSA]
 RewriteRule ^equipo/?$ team.php [L,QSA]
 RewriteRule ^noticias/?$ news.php [L,QSA]
@@ -75,26 +73,32 @@ RewriteRule ^privacidad/?$ privacidad.php [L,QSA]
 RewriteRule ^terminos/?$ terminos.php [L,QSA]
 RewriteRule ^cookies/?$ cookies.php [L,QSA]
 
-# Si es la raíz del proyecto (sin ruta adicional), servir index.php
+# CUARTO: Si es la raíz del proyecto, servir index.php
 RewriteCond %{REQUEST_URI} ^/?$
 RewriteRule ^$ index.php [L,QSA]
 
-# Si la URL termina con / y no es un directorio, redirigir a index.php
+# QUINTO: Si la URL termina con / y no es un directorio, quitar la barra final
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
 RewriteCond %{REQUEST_URI} ^(.*)/$
 RewriteRule ^(.*)$ %1 [R=301,L]
 
-# Si el archivo .php existe sin extensión, servir directamente
+# SEXTO: Si el archivo .php existe sin extensión, servir directamente
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
 RewriteCond %{REQUEST_FILENAME}.php -f
 RewriteRule ^(.*)$ $1.php [L,QSA]
 
-# Si no se encontró nada, redirigir a 404
+# ÚLTIMO: Si no se encontró nada, redirigir a 404
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
 RewriteRule ^(.*)$ 404.php [L,QSA]
+
+# Página de error 404 personalizada
+# NOTA: Si el proyecto está en /web/, usar: ErrorDocument 404 /web/404.php
+# Si está en la raíz, usar: ErrorDocument 404 /404.php
+# Por ahora, usar ruta relativa que debería funcionar
+ErrorDocument 404 404.php
 
 # ============================================
 # PROTECCIÓN DE ARCHIVOS SENSIBLES
