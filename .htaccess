@@ -1,13 +1,8 @@
 # ODERMAN GROUP SAS - Configuración Apache
 # URLs Amigables y Seguridad
+# Compatible con cualquier ubicación (raíz, subcarpeta, etc.)
 
 RewriteEngine On
-
-# Configurar RewriteBase según la ubicación del proyecto
-# PRODUCCIÓN: Si está en /web/, usar: RewriteBase /web/
-# DESARROLLO LOCAL: Si está en /oderman-group/, usar: RewriteBase /oderman-group/
-# RAÍZ: Si está en la raíz, usar: RewriteBase /
-RewriteBase /web/
 
 # Prevenir listado de directorios
 Options -Indexes
@@ -54,10 +49,21 @@ Options -Indexes
 # RewriteCond %{HTTPS} off
 # RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
 
-# Página de error 404 personalizada
-# PRODUCCIÓN: ErrorDocument 404 /web/404.php
-# DESARROLLO: ErrorDocument 404 /oderman-group/404.php
-ErrorDocument 404 /web/404.php
+# Página de error 404 personalizada (ruta relativa)
+ErrorDocument 404 404.php
+
+# ============================================
+# REGLAS DE REWRITE - URLs AMIGABLES
+# ============================================
+
+# Permitir acceso directo a archivos físicos existentes (CSS, JS, imágenes, etc.)
+# Esto debe ir PRIMERO para evitar que se procesen archivos estáticos
+RewriteCond %{REQUEST_FILENAME} -f
+RewriteRule ^ - [L]
+
+# Permitir acceso directo a directorios existentes
+RewriteCond %{REQUEST_FILENAME} -d
+RewriteRule ^ - [L]
 
 # URLs amigables específicas (procesar ANTES de verificar archivos)
 RewriteRule ^acerca-de/?$ about.php [L,QSA]
@@ -69,16 +75,15 @@ RewriteRule ^privacidad/?$ privacidad.php [L,QSA]
 RewriteRule ^terminos/?$ terminos.php [L,QSA]
 RewriteRule ^cookies/?$ cookies.php [L,QSA]
 
-# Si es la raíz, servir index.php
+# Si es la raíz del proyecto (sin ruta adicional), servir index.php
+RewriteCond %{REQUEST_URI} ^/?$
 RewriteRule ^$ index.php [L,QSA]
 
-# Permitir acceso directo a archivos físicos existentes (CSS, JS, imágenes, etc.)
-RewriteCond %{REQUEST_FILENAME} -f
-RewriteRule ^ - [L]
-
-# Permitir acceso directo a directorios existentes
-RewriteCond %{REQUEST_FILENAME} -d
-RewriteRule ^ - [L]
+# Si la URL termina con / y no es un directorio, redirigir a index.php
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_URI} ^(.*)/$
+RewriteRule ^(.*)$ %1 [R=301,L]
 
 # Si el archivo .php existe sin extensión, servir directamente
 RewriteCond %{REQUEST_FILENAME} !-f
@@ -90,6 +95,10 @@ RewriteRule ^(.*)$ $1.php [L,QSA]
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
 RewriteRule ^(.*)$ 404.php [L,QSA]
+
+# ============================================
+# PROTECCIÓN DE ARCHIVOS SENSIBLES
+# ============================================
 
 # Proteger archivos sensibles
 <FilesMatch "\.(htaccess|htpasswd|ini|log|sh|sql)$">
