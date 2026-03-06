@@ -1,0 +1,19 @@
+# ODERMAN GROUP SAS - robots.txt
+User-agent: *
+Allow: /
+
+# Sitemap
+Sitemap: https://oderman-group.com/sitemap.xml
+
+# Disallow sensitive files
+Disallow: /includes/
+Disallow: /*.php$
+Allow: /index.php
+Allow: /about.php
+Allow: /team.php
+Allow: /news.php
+Allow: /blog.php
+Allow: /contact.php
+Allow: /privacidad.php
+Allow: /terminos.php
+Allow: /cookies.php

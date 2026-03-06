@@ -1,0 +1,109 @@
+# ODERMAN GROUP SAS - Configuración Apache
+# URLs Amigables y Seguridad
+
+RewriteEngine On
+
+# Configurar RewriteBase según la ubicación del proyecto
+# Si está en la raíz del servidor web, usar: RewriteBase /
+# Si está en una subcarpeta (ej: /oderman-group/), usar:
+RewriteBase /oderman-group/
+
+# Prevenir listado de directorios
+Options -Indexes
+
+# Headers de Seguridad
+<IfModule mod_headers.c>
+    # Prevenir clickjacking
+    Header always set X-Frame-Options "SAMEORIGIN"
+    
+    # Prevenir MIME type sniffing
+    Header always set X-Content-Type-Options "nosniff"
+    
+    # XSS Protection
+    Header always set X-XSS-Protection "1; mode=block"
+    
+    # Referrer Policy
+    Header always set Referrer-Policy "strict-origin-when-cross-origin"
+    
+    # Content Security Policy
+    Header always set Content-Security-Policy "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://fonts.googleapis.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https:; connect-src 'self';"
+</IfModule>
+
+# Compresión GZIP
+<IfModule mod_deflate.c>
+    AddOutputFilterByType DEFLATE text/html text/plain text/xml text/css text/javascript application/javascript application/json
+</IfModule>
+
+# Cache de archivos estáticos
+<IfModule mod_expires.c>
+    ExpiresActive On
+    ExpiresByType image/jpg "access plus 1 year"
+    ExpiresByType image/jpeg "access plus 1 year"
+    ExpiresByType image/gif "access plus 1 year"
+    ExpiresByType image/png "access plus 1 year"
+    ExpiresByType image/webp "access plus 1 year"
+    ExpiresByType image/svg+xml "access plus 1 year"
+    ExpiresByType text/css "access plus 1 month"
+    ExpiresByType application/javascript "access plus 1 month"
+    ExpiresByType application/pdf "access plus 1 month"
+    ExpiresByType text/html "access plus 0 seconds"
+</IfModule>
+
+# Forzar HTTPS (descomentar en producción)
+# RewriteCond %{HTTPS} off
+# RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+
+# Página de error 404 personalizada
+# Si el proyecto está en la raíz del servidor web, usar: ErrorDocument 404 /404.php
+# Si está en una subcarpeta (ej: /oderman-group/), usar: ErrorDocument 404 /oderman-group/404.php
+# Para XAMPP en localhost, si está en htdocs/oderman-group, usar:
+ErrorDocument 404 /oderman-group/404.php
+
+# Detectar si estamos en una subcarpeta y configurar RewriteBase automáticamente
+# Si el proyecto está en la raíz, RewriteBase será /
+# Si está en una subcarpeta, se detectará automáticamente
+RewriteCond %{REQUEST_URI}::%{REQUEST_FILENAME} ^(.*?)([^/]*)::(.*)$
+RewriteRule ^(.*)$ - [E=BASE:%1]
+
+# URLs amigables específicas (procesar ANTES de verificar archivos)
+RewriteRule ^acerca-de/?$ about.php [L,QSA]
+RewriteRule ^equipo/?$ team.php [L,QSA]
+RewriteRule ^noticias/?$ news.php [L,QSA]
+RewriteRule ^blog/?$ blog.php [L,QSA]
+RewriteRule ^contacto/?$ contact.php [L,QSA]
+RewriteRule ^privacidad/?$ privacidad.php [L,QSA]
+RewriteRule ^terminos/?$ terminos.php [L,QSA]
+RewriteRule ^cookies/?$ cookies.php [L,QSA]
+
+# Si es la raíz, servir index.php
+RewriteRule ^$ index.php [L,QSA]
+
+# Permitir acceso directo a archivos físicos existentes (CSS, JS, imágenes, etc.)
+RewriteCond %{REQUEST_FILENAME} -f
+RewriteRule ^ - [L]
+
+# Permitir acceso directo a directorios existentes
+RewriteCond %{REQUEST_FILENAME} -d
+RewriteRule ^ - [L]
+
+# Si el archivo .php existe sin extensión, servir directamente
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_FILENAME}.php -f
+RewriteRule ^(.*)$ $1.php [L,QSA]
+
+# Si no se encontró nada, redirigir a 404
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^(.*)$ 404.php [L,QSA]
+
+# Proteger archivos sensibles
+<FilesMatch "\.(htaccess|htpasswd|ini|log|sh|sql)$">
+    Order Allow,Deny
+    Deny from all
+</FilesMatch>
+
+# Proteger includes
+<IfModule mod_rewrite.c>
+    RewriteRule ^includes/ - [F,L]
+</IfModule>

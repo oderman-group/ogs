@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:xhtml="http://www.w3.org/1999/xhtml">
+    
+    <!-- Página Principal -->
+    <url>
+        <loc>https://oderman-group.com/</loc>
+        <lastmod>2025-01-28</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>1.0</priority>
+        <xhtml:link rel="alternate" hreflang="es" href="https://oderman-group.com/"/>
+        <xhtml:link rel="alternate" hreflang="en" href="https://oderman-group.com/?lang=en"/>
+    </url>
+    
+    <!-- Acerca de -->
+    <url>
+        <loc>https://oderman-group.com/acerca-de</loc>
+        <lastmod>2025-01-28</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.8</priority>
+        <xhtml:link rel="alternate" hreflang="es" href="https://oderman-group.com/acerca-de"/>
+        <xhtml:link rel="alternate" hreflang="en" href="https://oderman-group.com/acerca-de?lang=en"/>
+    </url>
+    
+    <!-- Equipo -->
+    <url>
+        <loc>https://oderman-group.com/equipo</loc>
+        <lastmod>2025-01-28</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.7</priority>
+        <xhtml:link rel="alternate" hreflang="es" href="https://oderman-group.com/equipo"/>
+        <xhtml:link rel="alternate" hreflang="en" href="https://oderman-group.com/equipo?lang=en"/>
+    </url>
+    
+    <!-- Noticias -->
+    <url>
+        <loc>https://oderman-group.com/noticias</loc>
+        <lastmod>2025-01-28</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.7</priority>
+        <xhtml:link rel="alternate" hreflang="es" href="https://oderman-group.com/noticias"/>
+        <xhtml:link rel="alternate" hreflang="en" href="https://oderman-group.com/noticias?lang=en"/>
+    </url>
+    
+    <!-- Blog -->
+    <url>
+        <loc>https://oderman-group.com/blog</loc>
+        <lastmod>2025-01-28</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.7</priority>
+        <xhtml:link rel="alternate" hreflang="es" href="https://oderman-group.com/blog"/>
+        <xhtml:link rel="alternate" hreflang="en" href="https://oderman-group.com/blog?lang=en"/>
+    </url>
+    
+    <!-- Contacto -->
+    <url>
+        <loc>https://oderman-group.com/contacto</loc>
+        <lastmod>2025-01-28</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.8</priority>
+        <xhtml:link rel="alternate" hreflang="es" href="https://oderman-group.com/contacto"/>
+        <xhtml:link rel="alternate" hreflang="en" href="https://oderman-group.com/contacto?lang=en"/>
+    </url>
+    
+    <!-- Política de Privacidad -->
+    <url>
+        <loc>https://oderman-group.com/privacidad</loc>
+        <lastmod>2025-01-28</lastmod>
+        <changefreq>yearly</changefreq>
+        <priority>0.3</priority>
+        <xhtml:link rel="alternate" hreflang="es" href="https://oderman-group.com/privacidad"/>
+        <xhtml:link rel="alternate" hreflang="en" href="https://oderman-group.com/privacidad?lang=en"/>
+    </url>
+    
+    <!-- Términos y Condiciones -->
+    <url>
+        <loc>https://oderman-group.com/terminos</loc>
+        <lastmod>2025-01-28</lastmod>
+        <changefreq>yearly</changefreq>
+        <priority>0.3</priority>
+        <xhtml:link rel="alternate" hreflang="es" href="https://oderman-group.com/terminos"/>
+        <xhtml:link rel="alternate" hreflang="en" href="https://oderman-group.com/terminos?lang=en"/>
+    </url>
+    
+    <!-- Política de Cookies -->
+    <url>
+        <loc>https://oderman-group.com/cookies</loc>
+        <lastmod>2025-01-28</lastmod>
+        <changefreq>yearly</changefreq>
+        <priority>0.3</priority>
+        <xhtml:link rel="alternate" hreflang="es" href="https://oderman-group.com/cookies"/>
+        <xhtml:link rel="alternate" hreflang="en" href="https://oderman-group.com/cookies?lang=en"/>
+    </url>
+    
+</urlset>
